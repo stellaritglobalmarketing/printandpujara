@@ -22,7 +22,7 @@ export function HomeSections({ clients, blogs }: { clients: HomeClient[] | null;
   return <>
     <section className="home-api-section home-clients" id="clients">
       <Container>
-        <div className="client-section-heading"><h2>Brands We&apos;ve Helped <span className="text-brand-gradient">Move Forward</span></h2></div>
+        <div className="client-section-heading"><h2>Our <span className="text-brand-gradient">Clients</span></h2></div>
         {!clients?.length ? <State data={clients} /> : <ClientMarquee clients={clients} />}
       </Container>
     </section>

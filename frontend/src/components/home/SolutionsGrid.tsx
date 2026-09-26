@@ -29,7 +29,7 @@ export function SolutionsGrid({ categories: allCategories }: { categories: Servi
   };
   return <motion.section className="solutions-section" id="services" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.12 }} variants={{ hidden: {}, visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.55 } } }}>
     <Container>
-      <motion.h2 className="solutions-heading" variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition } }}>Our <span className="text-brand-gradient">Printing &amp; Packaging</span> Solutions</motion.h2>
+      <motion.h2 className="solutions-heading" variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition } }}>Our <span className="text-brand-gradient">Services</span> &amp; Print Solutions</motion.h2>
       <motion.div className="solutions-row" variants={{ hidden: {}, visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.1 } } }}>
         {!categories ? <p className="home-data-state">Services are temporarily unavailable. Please try again later.</p> : categories.length === 0 ? <p className="home-data-state">Our services will be available here soon.</p> : categories.map((category) => <MotionLink href={servicesUrl({ category: category.slug, featured: false, page: 1 })} className="solution-card" key={category.slug} variants={cardVariants} whileHover={reducedMotion ? undefined : { y: -8, transition: { ...transition, duration: 0.22 } }} aria-label={`Explore ${category.name} services`}>
           <div className="solution-image-frame"><ApiImage src={resolveImageUrl(category.image_url)} alt={category.name} /></div>
