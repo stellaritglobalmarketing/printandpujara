@@ -1,85 +1,114 @@
 "use client";
 
-import { motion } from "motion/react";
-import { useHeroVideoAnimation, eyebrowVariants, headingVariants, descriptionVariants, buttonVariants, featureRowVariants, trustCardVariants } from "./useHeroVideoAnimation";
-import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { ArrowDown, ArrowLeft, ArrowRight, Check } from "lucide-react";
 import styles from "./Hero.module.css";
-import { heroBottomHighlights, heroTrustBadges } from "@/lib/site-data";
-import { ArrowRight, FileText } from "lucide-react";
+
+type Slide = { label: string; eyebrow: string; title: string; accent: string; inlineAccent?: boolean; description: string; cta: string; href: string; secondary?: { label: string; href: string }; features?: string[]; stats?: { value: string; label: string }[] };
+
+// The first slide is what visitors see on load: location, positioning and proof points, like a classic B2B print hero.
+const slides: Slide[] = [
+  { label: "Printing", eyebrow: "Best printing services in", title: "Andheri East,", accent: "Mumbai", inlineAccent: true, description: "Mumbai's trusted B2B printing and packaging partner. Offset, digital, packaging and large-format printing under one roof since 2007.", cta: "Start your project", href: "/contact-us", secondary: { label: "View our work", href: "/portfolio" }, stats: [{ value: "19", label: "Years legacy" }, { value: "75", label: "Brand clients" }, { value: "50", label: "Print solutions" }] },
+  { label: "Packaging", eyebrow: "Made for your brand", title: "First impressions.", accent: "Beautifully packed.", description: "Custom boxes and printed packaging that bring your brand to life. Thoughtful materials, precise printing and a finish your customers will remember.", cta: "Explore packaging", href: "/services#category-packaging", features: ["Custom boxes", "Brand packaging", "Premium materials"] },
+  { label: "Finishing", eyebrow: "The details make the difference", title: "Every detail.", accent: "Perfectly finished.", description: "From clean cuts and crisp folds to lamination and binding, give every printed piece the finish it deserves.", cta: "Explore finishing", href: "/services#category-finishing", features: ["Lamination", "Die-cutting", "Binding"] },
+];
 
 export function Hero() {
-  const { videoRef, showVideo, eyebrow, lines, description, buttons, features, trustCard } = useHeroVideoAnimation();
+  const region = useRef<HTMLElement>(null);
+
+  const video = useRef<HTMLVideoElement>(null);
+  const [active, setActive] = useState(0);
+  const [autoplay, setAutoplay] = useState(true);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    const element = region.current;
+    const header = document.querySelector<HTMLElement>(".site-header");
+    if (!element) return;
+    const resize = () => element.style.setProperty("--hero-header", (header?.offsetHeight || 0) + "px");
+    const observer = new ResizeObserver(resize);
+    if (header) observer.observe(header);
+    resize();
+    const visibility = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.1 });
+    visibility.observe(element);
+    return () => { observer.disconnect(); visibility.disconnect(); };
+  }, []);
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setAutoplay(!reduced.matches);
+    update();
+    reduced.addEventListener("change", update);
+    return () => reduced.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!autoplay || hovered || focused || !visible) return;
+    const timer = window.setInterval(() => {
+      if (!document.hidden) setActive(index => (index + 1) % slides.length);
+    }, 6000);
+    return () => window.clearInterval(timer);
+  }, [active, autoplay, hovered, focused, visible]);
+
+  useEffect(() => {
+    const media = video.current;
+    if (!media) return;
+    if (!autoplay || !visible) media.pause();
+    else void media.play().catch(() => { /* Keep the poster when autoplay is unavailable. */ });
+  }, [autoplay, visible]);
+
+  const goTo = (index: number) => {
+    setActive((index + slides.length) % slides.length);
+  };
+  const continuePage = () => {
+    const element = region.current;
+    if (!element) return;
+    const header = document.querySelector<HTMLElement>(".site-header")?.offsetHeight || 0;
+    window.scrollTo({ top: window.scrollY + element.getBoundingClientRect().bottom - header, behavior: "instant" });
+    const next = element.nextElementSibling as HTMLElement | null;
+    if (next) { next.tabIndex = -1; next.focus({ preventScroll: true }); }
+  };
+
   return (
-    <section className={styles.hero}>
-      <div className={styles.backdrop} aria-hidden="true">
-        <div className={styles.poster} />
-        {showVideo && <video ref={videoRef} autoPlay muted loop playsInline preload="auto" poster="/images/hero-printer.png" className={`${styles.image} object-cover`} aria-hidden="true">
-          <source src="/images/pujara-print-coming-out-clean.mp4" type="video/mp4" />
-        </video>}
-        <div className={styles.overlay} />
-      </div>
-      <Container className={styles.content}>
-        <div className={styles.layers}>
-          {/* Left: Content */}
-          <div className={styles.copy}>
-            {/* Eyebrow */}
-            <div className="space-y-4">
-              <motion.p initial={false} animate={eyebrow} variants={eyebrowVariants} className="text-sm font-semibold tracking-wide text-ink-muted uppercase">
-                <span className="text-brand-indigo">Smart Printing.</span>{" "}
-                <span className="text-brand-orange">Stunning Impact.</span>
-              </motion.p>
-
-              {/* Headline with gradient */}
-              <h1 className={styles.headline}>
-                <motion.span className={styles.headingLine} initial={false} animate={lines[0]} variants={headingVariants}>Your Vision.</motion.span>
-                <motion.span className={styles.headingLine} initial={false} animate={lines[1]} variants={headingVariants}>Our Print.</motion.span>
-                <motion.span className={`${styles.headingLine} text-brand-gradient`} initial={false} animate={lines[2]} variants={headingVariants}>Perfect Impact.</motion.span>
-              </h1>
-
-              {/* Description */}
-              <motion.p initial={false} animate={description} variants={descriptionVariants} className={styles.description}>
-                Advanced technology, premium materials and expert craftsmanship to make your
-                brand impossible to ignore.
-              </motion.p>
-            </div>
-
-            {/* CTA Buttons */}
-            <motion.div initial={false} animate={buttons} variants={buttonVariants} className={styles.actions}>
-              <Button variant="primary" size="md" className={styles.button}>
-                Explore Services <ArrowRight className="w-5 h-5" />
-              </Button>
-              <Button variant="secondary" size="md" className={styles.button}>
-                Get a Free Quote <FileText className="w-5 h-5" />
-              </Button>
-            </motion.div>
-
-            {/* Bottom highlights grid */}
-            <div className={styles.highlights}>
-              {heroBottomHighlights.map((item, index) => (
-                <motion.div initial={false} animate={features[index]} variants={featureRowVariants} key={item.title} className={`${styles.highlightCard} min-w-0`}>
-                  <p className="font-semibold text-sm text-ink">{item.title}</p>
-                  <p className="text-xs text-ink-muted">{item.description}</p>
-                </motion.div>
-              ))}
+    <section ref={region} className={styles.hero} aria-label="Printing, packaging and finishing" aria-roledescription="carousel" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocusCapture={() => setFocused(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}>
+      <div className={styles.frame}>
+        <div className={styles.backdrop} aria-hidden="true">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/hero-printer.png" alt="" className={styles.media} fetchPriority="high" />
+          {!failed && <video ref={video} muted loop playsInline preload="auto" poster="/images/hero-printer.png" className={styles.media} onError={() => setFailed(true)}>
+            <source src="/images/pujara-print-coming-out-clean.mp4" type="video/mp4" onError={() => setFailed(true)} />
+          </video>}
+          <div className={styles.overlay} />
+        </div>
+        <h1 className={styles.srOnly}>Pujara Print Pack — Printing and packaging in Andheri East, Mumbai</h1>
+        {slides.map((slide, index) => (
+          <div key={slide.label} className={styles.slide + (active === index ? " " + styles.active : "")} aria-hidden={active !== index} inert={active !== index} role="group" aria-roledescription="slide" aria-label={(index + 1) + " of 3: " + slide.label}>
+            <div className={styles.copy}>
+              <p className={styles.eyebrow}>{slide.eyebrow}</p>
+              <h2 className={styles.heading + (slide.inlineAccent ? " " + styles.headingInline : "")}>{slide.title} <span>{slide.accent}</span></h2>
+              <p className={styles.description}>{slide.description}</p>
+              <div className={styles.actions}>
+                <Link href={slide.href} className={styles.button + " " + styles.primary}>{slide.cta}<ArrowRight size={18} aria-hidden="true" /></Link>
+                <Link href={slide.secondary?.href ?? "/contact-us"} className={styles.button + " " + styles.secondary}>{slide.secondary?.label ?? "Get a quote"}</Link>
+              </div>
+              {slide.features && <ul className={styles.features}>{slide.features.map(feature => <li key={feature}><Check size={15} aria-hidden="true" />{feature}</li>)}</ul>}
+              {slide.stats && <dl className={styles.stats}>{slide.stats.map(stat => <div key={stat.label} className={styles.stat}><dt>{stat.label}</dt><dd>{stat.value}<sup>+</sup></dd></div>)}</dl>}
             </div>
           </div>
-
-          <div className={styles.mobileArtwork} aria-hidden="true" />
-          <div className={styles.trustPosition}>
-            <motion.div initial={false} animate={trustCard} variants={trustCardVariants} className={styles.trustCard}>
-              {heroTrustBadges.map((badge) => (
-                <div key={badge.title} className="min-w-0">
-                  <p className="font-semibold text-sm text-ink leading-tight">{badge.title}</p>
-                  <p className="text-xs text-ink-muted">{badge.description}</p>
-                </div>
-              ))}
-            </motion.div>
+        ))}
+        <div className={styles.controls}>
+          <button className={styles.scroll} onClick={continuePage}>Explore more <ArrowDown size={16} aria-hidden="true" /></button>
+          <div className={styles.navigation}>
+            <div className={styles.dots} aria-label="Choose a hero slide">{slides.map((slide, index) => <button key={slide.label} aria-label={"Show " + slide.label + " slide"} aria-current={active === index ? "true" : undefined} className={active === index ? styles.selected : ""} onClick={() => goTo(index)} />)}</div>
+            <button className={styles.arrow} aria-label="Previous hero slide" onClick={() => goTo(active - 1)}><ArrowLeft size={19} /></button>
+            <button className={styles.arrow} aria-label="Next hero slide" onClick={() => goTo(active + 1)}><ArrowRight size={19} /></button>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }
-
-

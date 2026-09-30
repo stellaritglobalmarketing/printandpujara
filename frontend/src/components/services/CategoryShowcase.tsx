@@ -8,7 +8,8 @@ import { categoryHighlights, categorySummaries } from "@/lib/site-data";
 const MARQUEE_MIN_ITEMS = 5;
 
 function ProductCard({ service, hidden }: { service: Service; hidden?: boolean }) {
-  return <div className="category-product-card" role="listitem" aria-hidden={hidden}>
+  // Only the first copy of a marquee item carries the id, so #service-<id> links and the search land on one card.
+  return <div className="category-product-card" role="listitem" aria-hidden={hidden} id={hidden ? undefined : `service-${service.id}`}>
     <div className="category-product-image">
       {service.featured_image_url ? (
         // Hosted API images may come from different image providers.

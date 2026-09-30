@@ -476,7 +476,7 @@ router.get("/machines", async (req, res) => {
         const total = countRows[0]?.total || 0;
 
         const [machines] = await db.query(
-            `SELECT id, name, slug, short_description, featured_image_url, is_featured, sort_order
+            `SELECT id, name, slug, machine_type, short_description, featured_image_url, is_featured, sort_order
              FROM machines
              WHERE ${whereClause}
              ORDER BY sort_order ASC
@@ -516,7 +516,7 @@ router.get("/machines/:slug", async (req, res) => {
         }
 
         const [rows] = await db.query(
-            `SELECT id, name, slug, short_description, description, specifications, featured_image_url
+            `SELECT id, name, slug, machine_type, short_description, description, specifications, featured_image_url
              FROM machines
              WHERE slug = ? AND is_active = 1 AND is_delete = 0
              LIMIT 1`,

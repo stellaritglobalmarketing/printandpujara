@@ -12,7 +12,8 @@ function chunk<T>(items: T[], parts: number): T[][] {
 
 function ClientChip({ client, duplicate }: { client: ClientLogo; duplicate: boolean }) {
   const [broken, setBroken] = useState(false);
-  const src = resolveImageUrl(client.logo_url);
+  // Name-only wordmarks are unreadable at chip size; the chip already prints the name, so show the initial instead.
+  const src = client.logo_url?.includes("-wordmark.") ? null : resolveImageUrl(client.logo_url);
   const name = client.company_name || "Client";
   return <li className="trusted-chip" aria-hidden={duplicate || undefined}>
     <span className="trusted-chip-icon">

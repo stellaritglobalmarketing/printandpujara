@@ -6,7 +6,6 @@ import {
   Gauge,
   Share2,
   Layers,
-  Leaf,
   TrendingUp,
   Mail,
   MapPin,
@@ -16,28 +15,23 @@ import {
   Rocket,
   FileText,
   Send,
-  Shield,
   CheckCircle,
   ShoppingCart,
-  Sparkles,
   Star,
   Truck,
   Upload,
   Users,
-  DollarSign,
   Eye,
   Zap,
   Package,
 } from "lucide-react";
 import type {
   FooterLinkGroup,
-  HeroHighlight,
   NavLink,
   PortfolioItem,
   ProcessStep,
   SolutionCard,
   StatItem,
-  TrustBadge,
   WhyUsItem,
 } from "@/types";
 
@@ -61,60 +55,6 @@ export const navLinks: NavLink[] = [
   { label: "Testimonials", href: "/testimonials" },
   { label: "About Us", href: "/about" },
   { label: "Contact Us", href: "/contact-us" },
-];
-
-export const heroBottomHighlights: HeroHighlight[] = [
-  {
-    icon: Sparkles,
-    accent: "violet",
-    title: "High Quality Printing",
-    description: "Vibrant & Precise",
-  },
-  {
-    icon: Layers,
-    accent: "orange",
-    title: "Premium Materials",
-    description: "Top Quality Stock",
-  },
-  {
-    icon: Clock,
-    accent: "blue",
-    title: "Fast Turnaround",
-    description: "On-time, Every Time",
-  },
-  {
-    icon: Leaf,
-    accent: "green",
-    title: "Eco Friendly",
-    description: "Sustainable Printing",
-  },
-];
-
-export const heroTrustBadges: TrustBadge[] = [
-  {
-    icon: Sparkles,
-    accent: "violet",
-    title: "Smart Printing",
-    description: "High quality, perfect results",
-  },
-  {
-    icon: DollarSign,
-    accent: "orange",
-    title: "Cost Effective",
-    description: "Best quality at best price",
-  },
-  {
-    icon: Leaf,
-    accent: "green",
-    title: "Sustainable",
-    description: "Eco-friendly printing for a better tomorrow",
-  },
-  {
-    icon: Shield,
-    accent: "violet",
-    title: "Secure Delivery",
-    description: "Safe & reliable delivery at your doorstep.",
-  },
 ];
 
 export const solutionCards: SolutionCard[] = [

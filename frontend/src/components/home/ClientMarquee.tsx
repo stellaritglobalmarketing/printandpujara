@@ -7,13 +7,14 @@ import { resolveImageUrl } from "@/lib/image-url";
 // These company logos are missing/broken in the CMS and keep flashing a broken-image icon before onError removes them.
 const HIDDEN_CLIENT_NAMES = new Set(["autocp india pvt. ltd.", "avon corporation ltd."]);
 
-export function ClientMarquee({ clients }: { clients: HomeClient[] }) {
+export const isShownClient = (client: HomeClient) => Boolean(client.logo_url) && !HIDDEN_CLIENT_NAMES.has((client.company_name || "").trim().toLowerCase());
+
+export function ClientMarquee({ clients, limit = 10 }: { clients: HomeClient[]; limit?: number }) {
   const [paused, setPaused] = useState(false);
   const [brokenIds, setBrokenIds] = useState<Set<number>>(new Set());
   const visibleClients = clients
-    .filter(client => client.logo_url && !brokenIds.has(client.id))
-    .filter(client => !HIDDEN_CLIENT_NAMES.has((client.company_name || "").trim().toLowerCase()))
-    .slice(0, 10);
+    .filter(client => isShownClient(client) && !brokenIds.has(client.id))
+    .slice(0, limit);
   if (!visibleClients.length) return null;
   const markBroken = (id: number) => setBrokenIds(prev => (prev.has(id) ? prev : new Set(prev).add(id)));
   return <div className="client-marquee" data-paused={paused}>

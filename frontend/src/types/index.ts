@@ -15,13 +15,6 @@ export interface TrustBadge {
   description: string;
 }
 
-export interface HeroHighlight {
-  icon: LucideIcon;
-  accent: AccentColor;
-  title: string;
-  description: string;
-}
-
 export interface SolutionCard {
   icon: LucideIcon;
   accent: AccentColor;

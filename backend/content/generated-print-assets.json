@@ -1,0 +1,70 @@
+{
+  "tool": "built-in image_gen",
+  "note": "Machine images are AI illustrations, not verified photographs of the factory or exact models.",
+  "video": {
+    "file": "frontend/public/images/hero-offset-machine.mp4",
+    "status": "Not generated: Weave requires linking the Figma account.",
+    "prompt": "Cinematic close-up of a 5-color sheet-fed offset printing press running in a clean print factory. Paper sheets feed in and printed colorful sheets stack at the delivery end. Soft warm lighting, shallow depth of field, smooth slow camera dolly, seamless loop, no text, no logos, no people's faces.",
+    "width": 1920,
+    "height": 1080,
+    "durationSeconds": "8–12",
+    "maximumBytes": 8000000,
+    "audio": false
+  },
+  "assets": [
+    {
+      "file": "frontend/public/images/hero-offset-machine.jpg",
+      "width": 1920,
+      "height": 1080,
+      "prompt": "Cinematic close-up of a 5-color sheet-fed offset printing press running in a clean print factory. Paper sheets feed in and printed colorful sheets stack at the delivery end. Soft warm lighting, shallow depth of field. Wide 16:9 frame, hero video poster still. No text, no logos, no people's faces. Generate one image only. Target dimensions 1920x1080."
+    },
+    {
+      "file": "backend/uploads/machines/komori-5-color-528.jpg",
+      "width": 1200,
+      "height": 900,
+      "prompt": "Komori 5-color offset printing press (528), five connected printing towers and sheet feeder and delivery stack, entire machine visible in three-quarter view. Clean spacious printing factory, uncluttered neutral background, realistic industrial product photography, soft natural light, landscape 4:3. AI illustrative visualization, no overlaid text, no people, no watermark. Generate one image only. Target dimensions 1200x900."
+    },
+    {
+      "file": "backend/uploads/machines/shiv-shakti-offset.jpg",
+      "width": 1200,
+      "height": 900,
+      "prompt": "Shiv Shakti offset printing machine, compact industrial sheet-fed offset press, feeder table, metal rollers and paper delivery tray. Entire machine visible in three-quarter view in a clean spacious printing factory, uncluttered neutral background, realistic industrial product photography, soft natural light, landscape 4:3. AI illustrative visualization, no invented model labels, no overlaid text, no people, no watermark. Generate one image only. Target dimensions 1200x900."
+    },
+    {
+      "file": "backend/uploads/machines/bellbond-offset.jpg",
+      "width": 1200,
+      "height": 900,
+      "prompt": "Bellbond offset printing machine, industrial sheet-fed offset press with paper feeder, enclosed printing unit and delivery stack. Entire machine visible in three-quarter view in a clean spacious printing factory, uncluttered neutral background, realistic industrial product photography, soft natural light, landscape 4:3. AI illustrative visualization, no invented model labels, no overlaid text, no people, no watermark. Generate one image only. Target dimensions 1200x900."
+    },
+    {
+      "file": "backend/uploads/machines/konica-digital-press.jpg",
+      "width": 1200,
+      "height": 900,
+      "prompt": "Konica Minolta digital production press, long professional floor-standing production printing system with feeder module, central digital print engine and finishing delivery module, white and charcoal enclosure and operator touchscreen. Entire machine visible in three-quarter view in a clean spacious printing factory, uncluttered neutral background, realistic industrial product photography, soft natural light, landscape 4:3. AI illustrative visualization, no invented model labels, no overlaid text, no people, no watermark. Generate one image only. Target dimensions 1200x900."
+    },
+    {
+      "file": "backend/uploads/services/box-customization.jpg",
+      "width": 1000,
+      "height": 1000,
+      "prompt": "Custom printed rigid and corrugated product boxes with a premium finish, studio shot. Tasteful arrangement of open and closed boxes showing printed surfaces, crisp folds and tactile cardboard. Clean background, soft studio lighting, photoreal commercial product photography. Square composition, no readable text or logos, no watermark. Generate one image only. Target dimensions 1000x1000."
+    },
+    {
+      "file": "frontend/public/images/printers-offset.jpg",
+      "width": 1000,
+      "height": 1000,
+      "prompt": "Stacks of freshly offset-printed brochures and catalogs, vibrant colors. Crisp paper edges and rich colorful abstract print layouts, clean print studio table, premium photoreal commercial photography, soft natural light. Square composition, no readable text or logos, no people, no watermark. Generate one image only. Target dimensions 1000x1000."
+    },
+    {
+      "file": "frontend/public/images/printers-digital.jpg",
+      "width": 1000,
+      "height": 1000,
+      "prompt": "Short-run digital prints, flyers and cards coming out of a digital press. Close-up on output tray with colorful fresh flyers, nearby neat stacks of printed cards, coherent paper handling, clean professional print studio. Premium photoreal commercial photography, soft natural light. Square composition, no readable text or logos, no people, no watermark. Generate one image only. Target dimensions 1000x1000."
+    },
+    {
+      "file": "backend/uploads/services/xerox-rental.jpg",
+      "width": 1000,
+      "height": 1000,
+      "prompt": "Modern office multifunction photocopier in a clean office setting. Full floor-standing white and charcoal copier with document feeder, touch screen and paper drawers, subtle bright office background. Premium photoreal commercial product photography, soft daylight. Square composition, no readable text or logos, no people, no watermark. Generate one image only. Target dimensions 1000x1000."
+    }
+  ]
+}

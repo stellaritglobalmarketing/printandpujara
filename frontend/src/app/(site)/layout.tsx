@@ -35,7 +35,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className="antialiased">
       <body className="bg-page"><WhatsAppProvider number={settings?.whatsapp || settings?.phone}><Navbar categoryLinks={{
-        "/services": [{ label: "All Services", href: "/services" }, ...categories.map(category => ({ label: category.name, href: `/services?category=${encodeURIComponent(category.slug)}` }))],
+        "/services": [{ label: "All Services", href: "/services" }, ...categories.map(category => ({ label: category.name, href: `/services#category-${encodeURIComponent(category.slug)}` }))],
         "/portfolio": [{ label: "All Portfolio", href: "/portfolio" }, ...portfolioCategories.map(category => ({ label: category.name, href: `/portfolio?category=${encodeURIComponent(category.slug)}` }))],
         "/blogs": [{ label: "All Blogs", href: "/blogs" }, ...blogCategories.map(category => ({ label: category.name, href: `/blogs?category=${encodeURIComponent(category.slug)}` }))],
       }} phone={settings?.phone} logoUrl={settings?.logo_url} siteName={settings?.site_name} />{children}<Footer contact={settings} logoUrl={settings?.logo_url} siteName={settings?.site_name} /><WhatsAppButton /></WhatsAppProvider></body>

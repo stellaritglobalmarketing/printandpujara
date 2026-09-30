@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { ServicesLayout } from "@/components/services/ServicesLayout";
 import { CategoryShowcase } from "@/components/services/CategoryShowcase";
 import { CategoryFilterNav } from "@/components/services/CategoryFilterNav";
+import { ShowcaseSearch } from "@/components/services/ShowcaseSearch";
 import { getServiceCategories, getCategoryCounts, getServices, getAllServices, servicesUrl } from "@/services/serviceService";
 import type { Service } from "@/types/service";
 
@@ -40,8 +41,11 @@ export default async function ServicesPage({ searchParams }: { searchParams: Pro
     </Container></section>
     {isDefaultView && <CategoryFilterNav categories={categories} />}
     <section className="services-catalog" aria-labelledby="services-heading"><Container>
-      <div className="services-intro"><h2 id="services-heading">COMPLETE <span className="text-brand-gradient">PRINTING & PACKAGING</span> SOLUTIONS</h2>
-      <p>From creative design to premium printing and packaging — everything under one roof.</p></div>
+      <div className="services-intro-row">
+        <div className="services-intro"><h2 id="services-heading">COMPLETE <span className="text-brand-gradient">PRINTING & PACKAGING</span> SOLUTIONS</h2>
+        <p>From creative design to premium printing and packaging — everything under one roof.</p></div>
+        {isDefaultView && allServices.length > 0 && <ShowcaseSearch services={allServices} />}
+      </div>
       {selected?.description && <p className="services-category-description">{selected.description}</p>}
       {isDefaultView ? <CategoryShowcase categories={categories} servicesByCategory={servicesByCategory} /> : !result ? <div role="alert" className="rounded-2xl border border-ink/10 bg-white p-10 text-center"><h3 className="text-xl font-bold">We couldn’t load our services</h3><p className="mt-3 text-ink-soft">Please try again in a moment.</p><Link href={servicesUrl(filters)} className="mt-5 inline-block rounded-lg bg-brand-indigo px-6 py-3 text-white">Try again</Link></div> : result.data.length === 0 ? <div className="rounded-2xl border border-ink/10 bg-white p-12 text-center"><h3 className="text-xl font-bold">No services found</h3><p className="mt-3 text-ink-soft">Try another category or return to all services.</p><Link href="/services" className="mt-5 inline-block font-semibold text-brand-indigo underline">View all services</Link></div> : <>
         <ServicesLayout categories={categories} filters={filters} counts={counts} services={result.data} selectedCategoryName={selected?.name ?? null} total={pagination?.total ?? result.data.length} />

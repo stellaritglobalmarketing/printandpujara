@@ -18,7 +18,7 @@ export default async function TestimonialsPage({ searchParams }: { searchParams:
   const query = new URLSearchParams({ page: String(page), limit: "6" });
   if (params.featured === "1") query.set("featured", "1");
   const href = (nextPage: number) => { const next = new URLSearchParams(query); next.delete("limit"); next.set("page", String(nextPage)); return `/testimonials?${next}`; };
-  const [result, clients] = await Promise.all([getTestimonials(query).catch(() => null), getClientLogos(30)]);
+  const [result, clients] = await Promise.all([getTestimonials(query).catch(() => null), getClientLogos(100)]);
   return <main className="content-page"><ContentBanner prefix="" title="Testimonials" /><Container><section className="content-body" aria-labelledby="testimonial-heading">
     <div className="testimonial-intro"><h2 id="testimonial-heading">WHAT OUR CLIENTS SAY</h2><p>Trusted by businesses for our quality, service, and commitment.</p></div>
     {!result || !result.data.length ? <ContentState error={!result} label="testimonials" href={result ? "/testimonials" : href(page)} /> : <div className="testimonial-grid">{result.data.map(item => <figure className="testimonial-card" key={item.id}><div className="testimonial-card-top"><ApiImage src={resolveImageUrl(item.client_image_url)} alt={item.client_name} className="testimonial-avatar" /><Quote className="testimonial-quote" size={24} aria-hidden="true" /></div>

@@ -2,8 +2,8 @@
 
 :root {
   /* Page surface */
-  --color-page: #fdf5f0;
-  --color-page-alt: #fdf1ec;
+  --color-page: #fffaf7;
+  --color-page-alt: #fef7f3;
 
   /* Ink */
   --color-ink: #171331;
