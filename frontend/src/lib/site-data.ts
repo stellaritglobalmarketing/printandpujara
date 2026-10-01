@@ -50,10 +50,9 @@ export const siteConfig = {
 export const navLinks: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Our Services", href: "/services" },
-  { label: "Our Portfolio", href: "/portfolio" },
-  { label: "Blogs", href: "/blogs" },
-  { label: "Testimonials", href: "/testimonials" },
+  { label: "Our Clients", href: "/testimonials" },
   { label: "About Us", href: "/about" },
+  { label: "Blogs", href: "/blogs" },
   { label: "Contact Us", href: "/contact-us" },
 ];
 
@@ -254,7 +253,6 @@ export const footerLinkGroups: FooterLinkGroup[] = [
       { label: "Home", href: "/" },
       { label: "About Us", href: "/about" },
       { label: "Services", href: "/services" },
-      { label: "Portfolio", href: "/portfolio" },
       { label: "Testimonials", href: "/testimonials" },
       { label: "Blog", href: "/blogs" },
       { label: "Contact Us", href: "/contact-us" },

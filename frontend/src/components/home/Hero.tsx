@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, Check, Truck } from "lucide-react";
 import styles from "./Hero.module.css";
 
 type Slide = { label: string; eyebrow: string; title: string; accent: string; inlineAccent?: boolean; description: string; cta: string; href: string; secondary?: { label: string; href: string }; features?: string[]; stats?: { value: string; label: string }[] };
 
 // The first slide is what visitors see on load: location, positioning and proof points, like a classic B2B print hero.
 const slides: Slide[] = [
-  { label: "Printing", eyebrow: "Best printing services in", title: "Andheri East,", accent: "Mumbai", inlineAccent: true, description: "Mumbai's trusted B2B printing and packaging partner. Offset, digital, packaging and large-format printing under one roof since 2007.", cta: "Start your project", href: "/contact-us", secondary: { label: "View our work", href: "/portfolio" }, stats: [{ value: "19", label: "Years legacy" }, { value: "75", label: "Brand clients" }, { value: "50", label: "Print solutions" }] },
+  { label: "Printing", eyebrow: "Best printing services in", title: "Andheri East,", accent: "Mumbai", inlineAccent: true, description: "Mumbai's trusted B2B printing and packaging partner. Offset, digital, packaging and large-format printing under one roof since 2007.", cta: "Start your project", href: "/contact-us", secondary: { label: "View our work", href: "/#portfolio" }, stats: [{ value: "19", label: "Years legacy" }, { value: "75", label: "Brand clients" }, { value: "50", label: "Print solutions" }] },
   { label: "Packaging", eyebrow: "Made for your brand", title: "First impressions.", accent: "Beautifully packed.", description: "Custom boxes and printed packaging that bring your brand to life. Thoughtful materials, precise printing and a finish your customers will remember.", cta: "Explore packaging", href: "/services#category-packaging", features: ["Custom boxes", "Brand packaging", "Premium materials"] },
   { label: "Finishing", eyebrow: "The details make the difference", title: "Every detail.", accent: "Perfectly finished.", description: "From clean cuts and crisp folds to lamination and binding, give every printed piece the finish it deserves.", cta: "Explore finishing", href: "/services#category-finishing", features: ["Lamination", "Die-cutting", "Binding"] },
 ];
@@ -91,6 +91,7 @@ export function Hero() {
               <p className={styles.eyebrow}>{slide.eyebrow}</p>
               <h2 className={styles.heading + (slide.inlineAccent ? " " + styles.headingInline : "")}>{slide.title} <span>{slide.accent}</span></h2>
               <p className={styles.description}>{slide.description}</p>
+              <p className={styles.note}><Truck size={17} aria-hidden="true" />We deliver all over India</p>
               <div className={styles.actions}>
                 <Link href={slide.href} className={styles.button + " " + styles.primary}>{slide.cta}<ArrowRight size={18} aria-hidden="true" /></Link>
                 <Link href={slide.secondary?.href ?? "/contact-us"} className={styles.button + " " + styles.secondary}>{slide.secondary?.label ?? "Get a quote"}</Link>

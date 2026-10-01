@@ -24,7 +24,7 @@ export function PortfolioTeaser() {
     <Container>
       <div className="about-portfolio-heading">
         <SectionHeading eyebrow="Capabilities" title="What We Can Make For You" />
-        <Link href="/portfolio" className="about-portfolio-link">View Full Portfolio <ArrowRight size={16} /></Link>
+        <Link href="/#portfolio" className="about-portfolio-link">View Full Portfolio <ArrowRight size={16} /></Link>
       </div>
       <motion.div
         className="about-portfolio-grid"
@@ -39,7 +39,7 @@ export function PortfolioTeaser() {
           style={{ "--stack-index": index } as React.CSSProperties}
           variants={{ hidden: { opacity: 0, scale: 0.94 }, visible: { opacity: 1, scale: 1, transition } }}
         >
-          <Link href="/portfolio" className="about-portfolio-item">
+          <Link href="/#portfolio" className="about-portfolio-item">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={category.image} alt={category.title} loading="lazy" className="about-portfolio-image" />
             <div className="about-portfolio-overlay" />

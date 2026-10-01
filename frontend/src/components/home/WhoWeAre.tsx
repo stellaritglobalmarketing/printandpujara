@@ -24,7 +24,7 @@ export function WhoWeAre() {
         </motion.div>
         <motion.div className="who-we-are-visual" variants={reveal}>
           <div className="who-we-are-main-image">
-            <Image src="/images/hero-offset-machine.jpg" alt="Illustration of an offset printing press producing colourful sheets" width={1920} height={1080} sizes="(max-width: 900px) 90vw, 45vw" className="who-we-are-art" />
+            <Image src="/images/who-we-are-offset-press.webp" alt="Four-colour sheet-fed offset printing press with stacks of paper and printed brochures" width={1838} height={856} sizes="(max-width: 900px) 90vw, 45vw" className="who-we-are-art" />
             <div className="who-we-are-experience" aria-label="Printing since 2007"><span>Printing since</span><strong>2007</strong></div>
           </div>
           <div className="who-we-are-thumbnails">

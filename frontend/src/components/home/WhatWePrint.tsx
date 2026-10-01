@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -10,14 +10,48 @@ import { ApiImage } from "./ApiImage";
 import { resolveImageUrl } from "@/lib/image-url";
 
 const ALL = "all";
+const AUTO_SCROLL_MS = 3000;
+
+// Homepage emphasis: digital, offset, packaging, then every "customized-*" category, then the rest in CMS order.
+const LEADING_CATEGORIES = ["digital-print", "offset-print", "packaging"];
+const categoryRank = (slug: string | null | undefined) => {
+  const index = slug ? LEADING_CATEGORIES.indexOf(slug) : -1;
+  if (index >= 0) return index;
+  return slug?.startsWith("customized-") ? LEADING_CATEGORIES.length : LEADING_CATEGORIES.length + 1;
+};
 
 // Category tabs over a horizontally scrolling rail of every service, so each tab shows real products.
-export function WhatWePrint({ categories, services }: { categories: ServiceCategory[] | null; services: Service[] | null }) {
+export function WhatWePrint({ categories, services: allServices }: { categories: ServiceCategory[] | null; services: Service[] | null }) {
   const reducedMotion = useReducedMotion();
   const railRef = useRef<HTMLUListElement>(null);
   const [active, setActive] = useState(ALL);
-  if (!services?.length) return null;
-  const tabs = (categories ?? []).filter(category => services.some(service => service.category_slug === category.slug));
+  const [paused, setPaused] = useState(false);
+
+  // Auto-advance the rail one card at a time (content moves right to left) and loop back to the start.
+  // Stops while the visitor hovers or focuses it, when the rail is off-screen or the tab is hidden, and for reduced motion.
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail || paused || reducedMotion !== false) return;
+    let onScreen = false;
+    const observer = new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; }, { threshold: 0.3 });
+    observer.observe(rail);
+    const timer = window.setInterval(() => {
+      if (!onScreen || document.hidden) return;
+      const card = rail.querySelector<HTMLElement>(".what-we-print-item");
+      const step = card ? card.offsetWidth + parseFloat(getComputedStyle(rail).columnGap || "0") : rail.clientWidth * 0.8;
+      const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 4;
+      if (atEnd) rail.scrollTo({ left: 0, behavior: "smooth" });
+      else rail.scrollBy({ left: step, behavior: "smooth" });
+    }, AUTO_SCROLL_MS);
+    return () => { window.clearInterval(timer); observer.disconnect(); };
+  }, [active, paused, reducedMotion]);
+
+  if (!allServices?.length) return null;
+  // Array.prototype.sort is stable, so the CMS order is kept within each rank.
+  const services = [...allServices].sort((a, b) => categoryRank(a.category_slug) - categoryRank(b.category_slug));
+  const tabs = (categories ?? [])
+    .filter(category => services.some(service => service.category_slug === category.slug))
+    .sort((a, b) => categoryRank(a.slug) - categoryRank(b.slug));
   const visible = active === ALL ? services : services.filter(service => service.category_slug === active);
   const select = (slug: string) => {
     setActive(slug);
@@ -37,7 +71,7 @@ export function WhatWePrint({ categories, services }: { categories: ServiceCateg
       <div className="what-we-print-tabs" role="tablist" aria-label="Print categories">
         {[{ slug: ALL, name: "All" }, ...tabs].map(tab => <button key={tab.slug} type="button" role="tab" id={`wwp-tab-${tab.slug}`} aria-selected={active === tab.slug} aria-controls="wwp-panel" className="what-we-print-tab" onClick={() => select(tab.slug)}>{tab.name}</button>)}
       </div>
-      <div className="what-we-print-rail-wrap" id="wwp-panel" role="tabpanel" aria-labelledby={`wwp-tab-${active}`}>
+      <div className="what-we-print-rail-wrap" id="wwp-panel" role="tabpanel" aria-labelledby={`wwp-tab-${active}`} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocusCapture={() => setPaused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}>
         <button type="button" className="what-we-print-arrow what-we-print-arrow-prev" onClick={() => scroll(-1)} aria-label="Scroll products left"><ArrowLeft size={18} /></button>
         <ul className="what-we-print-rail" ref={railRef}>
           {visible.map(service => <li key={service.id} className="what-we-print-item">

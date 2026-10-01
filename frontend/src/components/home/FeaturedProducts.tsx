@@ -11,6 +11,10 @@ import { resolveImageUrl } from "@/lib/image-url";
 
 const MotionLink = motion.create(Link);
 
+function FeaturedProductImage({ product }: { product: Service }) {
+  return <ApiImage src={resolveImageUrl(product.featured_image_url)} alt={product.title} />;
+}
+
 function FeaturedProductsStack({ products }: { products: Service[] }) {
   const [activeId, setActiveId] = useState(products[0]?.id);
   return <div className="featured-products-stack" role="list">
@@ -26,7 +30,7 @@ function FeaturedProductsStack({ products }: { products: Service[] }) {
         onClick={isActive ? undefined : () => setActiveId(product.id)}
         onKeyDown={isActive ? undefined : event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setActiveId(product.id); } }}
       >
-        <ApiImage src={resolveImageUrl(product.featured_image_url)} alt={product.title} />
+        <FeaturedProductImage product={product} />
         <span className="fp-stack-scrim" aria-hidden="true" />
         {isActive ? <>
           <span className="fp-stack-badge"><Star size={11} aria-hidden="true" fill="currentColor" />Featured</span>
@@ -57,7 +61,7 @@ export function FeaturedProducts({ products }: { products: Service[] | null }) {
           {products.map(product => <MotionLink href={`/services#service-${product.id}`} className="featured-product-card" key={product.id} variants={cardVariants} whileHover={reducedMotion ? undefined : { y: -8, transition: { ...transition, duration: 0.22 } }} aria-label={`Explore ${product.title}`}>
             <div className="featured-product-image-frame">
               <span className="featured-product-badge"><Star size={11} aria-hidden="true" fill="currentColor" />Featured</span>
-              <ApiImage src={resolveImageUrl(product.featured_image_url)} alt={product.title} />
+              <FeaturedProductImage product={product} />
             </div>
             <div className="featured-product-body">
               <h3>{product.title}</h3>

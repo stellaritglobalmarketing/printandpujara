@@ -27,6 +27,8 @@
 .stat dd { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(30px,2.6vw,40px); line-height: 1; color: #9148b4; }
 .stat dd sup { margin-left: 2px; font-size: .45em; vertical-align: super; color: #ed8951; }
 .stat dt { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #6f6178; white-space: nowrap; }
+.note { display: inline-flex; align-items: center; gap: 9px; margin-top: 22px; padding: 8px 16px 8px 12px; border: 1px solid #f3d9c8; border-radius: 999px; background: #fff3ea; color: #6b4a3a; font-size: 14px; font-weight: 600; }
+.note svg { flex-shrink: 0; color: #ed8951; }
 .controls { position: absolute; bottom: 24px; left: 0; right: 0; width: 100%; max-width: 1440px; margin: auto; padding-inline: clamp(24px,5vw,76px); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 .controls { padding-right: max(110px, calc((100vw - 1440px) / 2)); }
 .navigation { display: flex; align-items: center; gap: 12px; }
@@ -58,6 +60,7 @@
   .stat { padding-inline: 14px; }
   .stat dd { font-size: 26px; }
   .stat dt { font-size: 9px; letter-spacing: .06em; }
+  .note { margin-top: 14px; padding: 6px 12px 6px 10px; font-size: 12px; }
   .controls { bottom: 17px; padding-left: 24px; padding-right: 84px; gap: 8px; }
   .navigation { gap: 4px; }
   .dots { margin: 0 4px 0 0; gap: 4px; }
