@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [{ source: "/portfolio/:path*", destination: "/#portfolio", permanent: false }];
   },
+  // Shared hosting (Hostinger) caps processes and memory: build on one worker without extra worker threads.
+  experimental: {
+    cpus: 1,
+    workerThreads: false,
+    webpackMemoryOptimizations: true,
+  },
   images: {
     unoptimized: true,
   },
