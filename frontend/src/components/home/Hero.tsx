@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowLeft, ArrowRight, Check, Pause, Play, Truck } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, Check, Truck } from "lucide-react";
 import styles from "./Hero.module.css";
 
 type Slide = { label: string; eyebrow: string; title: string; accent: string; inlineAccent?: boolean; description: string; cta: string; href: string; secondary?: { label: string; href: string }; features?: string[]; stats?: { value: string; label: string }[] };
@@ -96,7 +96,6 @@ export function Hero() {
         <div className={styles.controls}>
           <button className={styles.scroll} onClick={continuePage}>Explore more <ArrowDown size={16} aria-hidden="true" /></button>
           <div className={styles.navigation}>
-            <button className={styles.arrow} aria-label={autoplay ? "Pause hero slideshow" : "Play hero slideshow"} onClick={() => setAutoplay(value => !value)}>{autoplay ? <Pause size={16} /> : <Play size={16} />}</button>
             <div className={styles.dots} aria-label="Choose a hero slide">{slides.map((slide, index) => <button key={slide.label} aria-label={"Show " + slide.label + " slide"} aria-current={active === index ? "true" : undefined} className={active === index ? styles.selected : ""} onClick={() => goTo(index)} />)}</div>
             <button className={styles.arrow} aria-label="Previous hero slide" onClick={() => goTo(active - 1)}><ArrowLeft size={19} /></button>
             <button className={styles.arrow} aria-label="Next hero slide" onClick={() => goTo(active + 1)}><ArrowRight size={19} /></button>
