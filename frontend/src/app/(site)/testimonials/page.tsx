@@ -1,32 +1,25 @@
 import type { Metadata } from "next";
-import { Quote } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { ApiImage } from "@/components/home/ApiImage";
-import { ContentBanner, ContentCTA, ContentPagination, ContentState } from "@/components/common/ContentPage";
-import { getTestimonials } from "@/services/testimonialService";
+import { ContentBanner, ContentCTA, ContentState } from "@/components/common/ContentPage";
 import { getClientLogos } from "@/services/clientService";
-import { resolveImageUrl } from "@/lib/image-url";
-import { VoicesFromEveryIndustry } from "@/components/testimonials/VoicesFromEveryIndustry";
-import { TrustedByTeams } from "@/components/testimonials/TrustedByTeams";
+import { ClientLogoWall } from "@/components/testimonials/ClientLogoWall";
 
-export const metadata: Metadata = { title: "Testimonials | Pujara Print N Pack", description: "Hear from our printing and packaging customers." };
+export const metadata: Metadata = { title: "Our Clients | Pujara Print N Pack", description: "Brands across India that trust Pujara Print N Pack with their printing and packaging." };
 
-export default async function TestimonialsPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const params = await searchParams;
-  const requestedPage = Number(params.page);
-  const page = Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
-  const query = new URLSearchParams({ page: String(page), limit: "6" });
-  if (params.featured === "1") query.set("featured", "1");
-  const href = (nextPage: number) => { const next = new URLSearchParams(query); next.delete("limit"); next.set("page", String(nextPage)); return `/testimonials?${next}`; };
-  const [result, clients] = await Promise.all([getTestimonials(query).catch(() => null), getClientLogos(100)]);
-  return <main className="content-page"><ContentBanner prefix="" title="Testimonials" /><Container><section className="content-body" aria-labelledby="testimonial-heading">
-    <div className="testimonial-intro"><h2 id="testimonial-heading">WHAT OUR CLIENTS SAY</h2><p>Trusted by businesses for our quality, service, and commitment.</p></div>
-    {!result || !result.data.length ? <ContentState error={!result} label="testimonials" href={result ? "/testimonials" : href(page)} /> : <div className="testimonial-grid">{result.data.map(item => <figure className="testimonial-card" key={item.id}><div className="testimonial-card-top"><ApiImage src={resolveImageUrl(item.client_image_url)} alt={item.client_name} className="testimonial-avatar" /><Quote className="testimonial-quote" size={24} aria-hidden="true" /></div>
-      <blockquote>{item.message}</blockquote><figcaption><strong>— {item.client_name}</strong>{(item.designation || item.company_name) && <span>{[item.designation, item.company_name].filter(Boolean).join(", ")}</span>}</figcaption>
-    </figure>)}</div>}
-    <ContentPagination pagination={result?.pagination} href={href} />
-    <VoicesFromEveryIndustry />
-    {clients && <TrustedByTeams clients={clients} />}
+export default async function OurClientsPage() {
+  const clients = await getClientLogos(100);
+  return <main className="content-page"><ContentBanner
+    prefix=""
+    title="Our Clients"
+    description="From mobile and real estate to media, pharma, finance and logistics, leading brands trust us with their printing and packaging, delivered all over India."
+    stats={[{ value: `${clients && clients.length >= 10 ? Math.floor(clients.length / 10) * 10 : 70}+`, label: "Brand clients" }, { value: "19+", label: "Years legacy" }, { value: "Pan-India", label: "Delivery" }]}
+  /><Container><section className="content-body" aria-label="Our clients">
+    <header className="client-wall-head">
+      <span className="client-wall-label">Brands we print for</span>
+      <h2>Clients we&apos;ve <span className="text-brand-gradient">worked with</span></h2>
+      <p>A few of the brands that trust us with their printing and packaging.</p>
+    </header>
+    {!clients?.length ? <ContentState error={!clients} label="clients" href="/testimonials" /> : <ClientLogoWall clients={clients} />}
     <ContentCTA testimonials />
   </section></Container></main>;
 }

@@ -6,7 +6,8 @@
 .slide { position: absolute; inset: 0; display: flex; align-items: center; max-width: 1440px; margin-inline: auto; padding: 30px clamp(24px,5vw,76px) 110px; opacity: 0; visibility: hidden; transform: translateY(18px); transition: opacity .45s ease, transform .45s ease, visibility .45s; }
 .active { opacity: 1; visibility: visible; transform: none; }
 .copy { width: 57%; max-width: 700px; }
-.eyebrow { margin: 0 0 20px; color: #6f6178; font-size: 12px; letter-spacing: .24em; text-transform: uppercase; }
+.eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 20px; color: #6f6178; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+.eyebrow::before { content: ""; flex-shrink: 0; width: 28px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, #713fc9, #ed8951); }
 .heading { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(42px,5.1vw,80px); font-weight: 400; line-height: 1.08; letter-spacing: -.045em; color: #26192e; }
 .heading span { display: block; color: #9148b4; }
 .headingInline { font-size: clamp(40px,4.3vw,68px); }
@@ -27,8 +28,8 @@
 .stat dd { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(30px,2.6vw,40px); line-height: 1; color: #9148b4; }
 .stat dd sup { margin-left: 2px; font-size: .45em; vertical-align: super; color: #ed8951; }
 .stat dt { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #6f6178; white-space: nowrap; }
-.note { display: inline-flex; align-items: center; gap: 9px; margin-top: 22px; padding: 8px 16px 8px 12px; border: 1px solid #f3d9c8; border-radius: 999px; background: #fff3ea; color: #6b4a3a; font-size: 14px; font-weight: 600; }
-.note svg { flex-shrink: 0; color: #ed8951; }
+.note { display: flex; align-items: center; gap: 10px; margin-top: 18px; color: #57475f; font-size: 15px; font-weight: 500; }
+.note svg { flex-shrink: 0; width: 18px; height: 18px; color: #ed8951; }
 .controls { position: absolute; bottom: 24px; left: 0; right: 0; width: 100%; max-width: 1440px; margin: auto; padding-inline: clamp(24px,5vw,76px); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 .controls { padding-right: max(110px, calc((100vw - 1440px) / 2)); }
 .navigation { display: flex; align-items: center; gap: 12px; }
@@ -47,7 +48,7 @@
   .overlay { background: linear-gradient(180deg, #fffaf700 10%, #fffaf770 24%, #fffaf7 46%); }
   .slide { align-items: flex-end; padding: 20px 24px 91px; }
   .copy { width: 100%; }
-  .eyebrow { margin: 0 0 12px; font-size: 9px; letter-spacing: .16em; }
+  .eyebrow { margin: 0 0 12px; font-size: 9px; letter-spacing: .12em; }
   .heading { font-size: clamp(35px,9.5vw,49px); }
   .description { margin-top: 14px; font-size: 13px; line-height: 1.65; }
   .actions { margin-top: 18px; gap: 9px; }
@@ -60,7 +61,7 @@
   .stat { padding-inline: 14px; }
   .stat dd { font-size: 26px; }
   .stat dt { font-size: 9px; letter-spacing: .06em; }
-  .note { margin-top: 14px; padding: 6px 12px 6px 10px; font-size: 12px; }
+  .note { margin-top: 12px; font-size: 13px; }
   .controls { bottom: 17px; padding-left: 24px; padding-right: 84px; gap: 8px; }
   .navigation { gap: 4px; }
   .dots { margin: 0 4px 0 0; gap: 4px; }

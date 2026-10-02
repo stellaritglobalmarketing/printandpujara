@@ -4,10 +4,8 @@ import { useState } from "react";
 import type { HomeClient } from "@/services/homeService";
 import { resolveImageUrl } from "@/lib/image-url";
 
-// These company logos are missing/broken in the CMS and keep flashing a broken-image icon before onError removes them.
-const HIDDEN_CLIENT_NAMES = new Set(["autocp india pvt. ltd.", "avon corporation ltd."]);
-
-export const isShownClient = (client: HomeClient) => Boolean(client.logo_url) && !HIDDEN_CLIENT_NAMES.has((client.company_name || "").trim().toLowerCase());
+// /seed-images/ logos are text placeholders from the initial seed, not real logos; they flash a broken image on the live site.
+export const isShownClient = (client: HomeClient) => Boolean(client.logo_url) && !client.logo_url?.startsWith("/seed-images/");
 
 export function ClientMarquee({ clients, limit = 10 }: { clients: HomeClient[]; limit?: number }) {
   const [paused, setPaused] = useState(false);

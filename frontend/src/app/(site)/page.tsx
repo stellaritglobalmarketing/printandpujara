@@ -8,9 +8,11 @@ import { MachinesSection } from "@/components/home/MachinesSection";
 import { CTABand } from "@/components/home/CTABand";
 import { getHomeData } from "@/services/homeService";
 import { HomeSections } from "@/components/home/HomeSections";
+import { HomeContact } from "@/components/home/HomeContact";
+import { getSiteSettings } from "@/services/siteService";
 
 export default async function Home() {
-  const data = await getHomeData();
+  const [data, settings] = await Promise.all([getHomeData(), getSiteSettings().catch(() => undefined)]);
   return (
     <>
       <main>
@@ -22,6 +24,7 @@ export default async function Home() {
         <FeaturedProducts products={data.featuredProducts} />
         <RecentWork projects={data.portfolio} content={data.recentWork} />
         <HomeSections blogs={data.blogs} />
+        <HomeContact settings={settings} />
         <CTABand />
       </main>
     </>

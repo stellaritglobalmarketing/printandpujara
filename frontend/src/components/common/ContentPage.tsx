@@ -4,12 +4,19 @@ import { Container } from "@/components/ui/Container";
 import type { Pagination } from "@/types/api";
 import "./content-page.css";
 
-export function ContentBanner({ prefix = "OUR", title }: { prefix?: string; title: string }) {
-  return <section className="content-banner"><Container><div><h1>{prefix && `${prefix} `}<span className="text-brand-gradient">{title.toUpperCase()}</span></h1><nav aria-label="Breadcrumb"><Link href="/">Home</Link><span aria-hidden="true"> / </span><span aria-current="page">{title}</span></nav></div></Container></section>;
+export function ContentBanner({ prefix = "OUR", title, description, stats }: { prefix?: string; title: string; description?: string; stats?: { value: string; label: string }[] }) {
+  return <section className={`content-banner${description || stats ? " content-banner-rich" : ""}`}><Container><div>
+    <div className="content-banner-copy">
+      <h1>{prefix && `${prefix} `}<span className="text-brand-gradient">{title.toUpperCase()}</span></h1>
+      {description && <p className="content-banner-description">{description}</p>}
+      <nav aria-label="Breadcrumb"><Link href="/">Home</Link><span aria-hidden="true"> / </span><span aria-current="page">{title}</span></nav>
+    </div>
+    {stats && <dl className="content-banner-stats">{stats.map(stat => <div key={stat.label}><dd>{stat.value}</dd><dt>{stat.label}</dt></div>)}</dl>}
+  </div></Container></section>;
 }
 
 export function ContentCTA({ testimonials = false }: { testimonials?: boolean }) {
-  return <div className="content-cta"><MessageSquare size={36} aria-hidden="true" /><div><h2>{testimonials ? "Join Our Happy Clients" : "Have a Printing Project?"}</h2><p>{testimonials ? "Let us add your name to the list of satisfied customers." : "We are ready to print your ideas with perfection."}</p></div><Link href="/contact-us">GET FREE QUOTE</Link><Link href={testimonials ? "#contact" : "/services"}>{testimonials ? "TALK TO EXPERT" : "VIEW SERVICES"}</Link></div>;
+  return <div className="content-cta"><MessageSquare size={36} aria-hidden="true" /><div><h2>{testimonials ? "Join Our Happy Clients" : "Have a Printing Project?"}</h2><p>{testimonials ? "Let us add your name to the list of satisfied customers." : "We are ready to print your ideas with perfection."}</p></div><Link href="/contact-us">GET FREE QUOTE</Link><Link href={testimonials ? "/#contact" : "/services"}>{testimonials ? "TALK TO EXPERT" : "VIEW SERVICES"}</Link></div>;
 }
 
 export function ContentPagination({ pagination, href }: { pagination?: Pagination; href: (page: number) => string }) {
