@@ -1,7 +1,8 @@
 .hero { --hero-header: 100px; --hero-height: calc(100svh - var(--hero-header)); position: relative; height: var(--hero-height); background: #fffaf7; }
 .frame { position: relative; height: var(--hero-height); isolation: isolate; overflow: hidden; }
 .backdrop { position: absolute; inset: 0; z-index: -1; }
-.media { position: absolute; right: 0; top: 0; width: 72%; height: 100%; object-fit: cover; object-position: center; }
+.media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center right; opacity: 0; transition: opacity .8s ease; }
+.mediaActive { opacity: 1; }
 .overlay { position: absolute; inset: 0; background: linear-gradient(90deg, #fffaf7 0%, #fffaf7fa 30%, #fffaf7bf 45%, #fffaf715 68%, transparent), linear-gradient(0deg,#fffaf7d9,transparent 20%); }
 .slide { position: absolute; inset: 0; display: flex; align-items: center; max-width: 1440px; margin-inline: auto; padding: 30px clamp(24px,5vw,76px) 110px; opacity: 0; visibility: hidden; transform: translateY(18px); transition: opacity .45s ease, transform .45s ease, visibility .45s; }
 .active { opacity: 1; visibility: visible; transform: none; }
@@ -44,8 +45,9 @@
 .srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 900px) { .copy { width: 65%; } .heading { font-size: clamp(42px,6vw,65px); } .features li { font-size: 13px; } .features li + li { margin-left: 14px; padding-left: 14px; } }
 @media (max-width: 600px) {
-  .media { width: 100%; height: 48%; object-fit: cover; object-position: center; }
-  .overlay { background: linear-gradient(180deg, #fffaf700 10%, #fffaf770 24%, #fffaf7 46%); }
+  .hero, .frame { height: max(var(--hero-height), 820px); }
+  .media { width: 100%; height: 310px; object-fit: cover; object-position: right center; }
+  .overlay { background: linear-gradient(180deg, transparent 180px, #fffaf7 310px); }
   .slide { align-items: flex-end; padding: 20px 24px 91px; }
   .copy { width: 100%; }
   .eyebrow { margin: 0 0 12px; font-size: 9px; letter-spacing: .12em; }
@@ -79,4 +81,4 @@
   .hero { height: auto; }
   .frame { position: relative; top: 0; height: 620px; }
 }
-@media (prefers-reduced-motion: reduce) { .slide { transition: none; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .slide, .media { transition: none; transform: none; } }

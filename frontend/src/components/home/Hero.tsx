@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowLeft, ArrowRight, Check, Truck } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, Check, Pause, Play, Truck } from "lucide-react";
 import styles from "./Hero.module.css";
 
 type Slide = { label: string; eyebrow: string; title: string; accent: string; inlineAccent?: boolean; description: string; cta: string; href: string; secondary?: { label: string; href: string }; features?: string[]; stats?: { value: string; label: string }[] };
@@ -13,17 +13,16 @@ const slides: Slide[] = [
   { label: "Packaging", eyebrow: "Made for your brand", title: "First impressions.", accent: "Beautifully packed.", description: "Custom boxes and printed packaging that bring your brand to life. Thoughtful materials, precise printing and a finish your customers will remember.", cta: "Explore packaging", href: "/services#category-packaging", features: ["Custom boxes", "Brand packaging", "Premium materials"] },
   { label: "Finishing", eyebrow: "The details make the difference", title: "Every detail.", accent: "Perfectly finished.", description: "From clean cuts and crisp folds to lamination and binding, give every printed piece the finish it deserves.", cta: "Explore finishing", href: "/services#category-finishing", features: ["Lamination", "Die-cutting", "Binding"] },
 ];
+const backgrounds = ["offset", "packaging", "print"];
 
 export function Hero() {
   const region = useRef<HTMLElement>(null);
 
-  const video = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(0);
   const [autoplay, setAutoplay] = useState(true);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     const element = region.current;
@@ -50,16 +49,9 @@ export function Hero() {
     if (!autoplay || hovered || focused || !visible) return;
     const timer = window.setInterval(() => {
       if (!document.hidden) setActive(index => (index + 1) % slides.length);
-    }, 6000);
+    }, 5000);
     return () => window.clearInterval(timer);
   }, [active, autoplay, hovered, focused, visible]);
-
-  useEffect(() => {
-    const media = video.current;
-    if (!media) return;
-    if (!autoplay || !visible) media.pause();
-    else void media.play().catch(() => { /* Keep the poster when autoplay is unavailable. */ });
-  }, [autoplay, visible]);
 
   const goTo = (index: number) => {
     setActive((index + slides.length) % slides.length);
@@ -77,11 +69,11 @@ export function Hero() {
     <section ref={region} className={styles.hero} aria-label="Printing, packaging and finishing" aria-roledescription="carousel" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocusCapture={() => setFocused(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}>
       <div className={styles.frame}>
         <div className={styles.backdrop} aria-hidden="true">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/hero-printer.png" alt="" className={styles.media} fetchPriority="high" />
-          {!failed && <video ref={video} muted loop playsInline preload="auto" poster="/images/hero-printer.png" className={styles.media} onError={() => setFailed(true)}>
-            <source src="/images/pujara-print-coming-out-clean.mp4" type="video/mp4" onError={() => setFailed(true)} />
-          </video>}
+          {backgrounds.map((background, index) => (
+            // Responsive decorative backgrounds are loaded together for a seamless first rotation.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={background} src={`/images/hero-${background}-1664.webp`} srcSet={`/images/hero-${background}-960.webp 960w, /images/hero-${background}-1664.webp 1664w`} sizes="100vw" alt="" className={styles.media + (active === index ? " " + styles.mediaActive : "")} fetchPriority={index === 0 ? "high" : "low"} />
+          ))}
           <div className={styles.overlay} />
         </div>
         <h1 className={styles.srOnly}>Pujara Print Pack — Printing and packaging in Andheri East, Mumbai</h1>
@@ -104,6 +96,7 @@ export function Hero() {
         <div className={styles.controls}>
           <button className={styles.scroll} onClick={continuePage}>Explore more <ArrowDown size={16} aria-hidden="true" /></button>
           <div className={styles.navigation}>
+            <button className={styles.arrow} aria-label={autoplay ? "Pause hero slideshow" : "Play hero slideshow"} onClick={() => setAutoplay(value => !value)}>{autoplay ? <Pause size={16} /> : <Play size={16} />}</button>
             <div className={styles.dots} aria-label="Choose a hero slide">{slides.map((slide, index) => <button key={slide.label} aria-label={"Show " + slide.label + " slide"} aria-current={active === index ? "true" : undefined} className={active === index ? styles.selected : ""} onClick={() => goTo(index)} />)}</div>
             <button className={styles.arrow} aria-label="Previous hero slide" onClick={() => goTo(active - 1)}><ArrowLeft size={19} /></button>
             <button className={styles.arrow} aria-label="Next hero slide" onClick={() => goTo(active + 1)}><ArrowRight size={19} /></button>
