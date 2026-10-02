@@ -8,14 +8,13 @@ import { resolveImageUrl } from "@/lib/image-url";
 export const isShownClient = (client: HomeClient) => Boolean(client.logo_url) && !client.logo_url?.startsWith("/seed-images/");
 
 export function ClientMarquee({ clients, limit = 10 }: { clients: HomeClient[]; limit?: number }) {
-  const [paused, setPaused] = useState(false);
   const [brokenIds, setBrokenIds] = useState<Set<number>>(new Set());
   const visibleClients = clients
     .filter(client => isShownClient(client) && !brokenIds.has(client.id))
     .slice(0, limit);
   if (!visibleClients.length) return null;
   const markBroken = (id: number) => setBrokenIds(prev => (prev.has(id) ? prev : new Set(prev).add(id)));
-  return <div className="client-marquee" data-paused={paused}>
+  return <div className="client-marquee">
     <div className="client-marquee-window">
       <div className="client-marquee-track">
         {[false, true].map(duplicate => <ul className="client-marquee-group" key={String(duplicate)} aria-hidden={duplicate || undefined} aria-label={duplicate ? undefined : "Our clients"}>
@@ -33,6 +32,5 @@ export function ClientMarquee({ clients, limit = 10 }: { clients: HomeClient[]; 
         </ul>)}
       </div>
     </div>
-    <button type="button" className="client-marquee-toggle" aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? "Resume scrolling" : "Pause scrolling"}</button>
   </div>;
 }

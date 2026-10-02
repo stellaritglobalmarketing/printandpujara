@@ -395,16 +395,14 @@ a,button,input,summary { outline-offset: 4px; }
 .home-api-section + .home-api-section { margin-top: 8px; }
 @media(max-width:700px) { .home-api-section { padding-block: 36px; } }
 .client-marquee-window { overflow: hidden; }
-.client-marquee-track { display: flex; width: max-content; min-width: 200%; animation: client-scroll 35s linear infinite; }
+.client-marquee-track { display: flex; width: max-content; min-width: 200%; animation: client-scroll 60s linear infinite; }
 .client-marquee-group { display: flex; align-items: center; justify-content: space-around; flex-shrink: 0; min-width: 50%; margin: 0; padding: 20px 0; list-style: none; }
 .client-marquee-item { flex: 0 0 190px; width: 190px; padding: 0 28px; border-right: 1px solid #e5e5e5; }
 .client-marquee-logo { display: block; width: 100%; height: 90px; object-fit: contain; }
-.client-marquee:hover .client-marquee-track,.client-marquee[data-paused="true"] .client-marquee-track { animation-play-state: paused; }
-.client-marquee-toggle { display: block; margin: 10px 0 0 auto; color: #67616f; font-size: 12px; text-decoration: underline; cursor: pointer; }
-.client-marquee-toggle:focus-visible { outline: 2px solid #773aac; outline-offset: 4px; }
+.client-marquee:hover .client-marquee-track { animation-play-state: paused; }
 @keyframes client-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media(max-width:700px) { .client-marquee-item { flex-basis: 150px; width: 150px; padding-inline: 18px; } .client-marquee-logo { height: 66px; } }
-@media(prefers-reduced-motion:reduce) { .client-marquee-track { animation: none; width: 100%; min-width: 0; } .client-marquee-group { flex-wrap: wrap; width: 100%; gap: 20px 0; } .client-marquee-group[aria-hidden="true"],.client-marquee-toggle { display: none; } }
+@media(prefers-reduced-motion:reduce) { .client-marquee-track { animation: none; width: 100%; min-width: 0; } .client-marquee-group { flex-wrap: wrap; width: 100%; gap: 20px 0; } .client-marquee-group[aria-hidden="true"] { display: none; } }
 .home-api-section h2 { font-size: clamp(24px, 2vw, 38px); font-weight: 700; margin-bottom: 24px; letter-spacing: -0.04em; }
 .home-api-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 22px; }
 .home-api-card { padding: 22px; border: 1px solid #eee3ed; border-radius: 14px; background: white; }
